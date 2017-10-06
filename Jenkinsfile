@@ -9,7 +9,7 @@ pipeline {
         stage('Gradle Env access') {
             steps {
                 echo "Starting build ${BUILD_ID} for ${JOB_NAME}"
-                sh './gradlew checkEnv'
+                sh "./gradlew printBuildId -Pbuild_id=${BUILD_ID}"
             }
         }
     }

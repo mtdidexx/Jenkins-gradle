@@ -1,11 +1,37 @@
 ext {
-    buildId = "${System.getProperty("BUILD_ID")}"
+    buildId = "LOCAL"
 }
+
+// https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_properties_and_system_properties
+task setBuildId {
+    if (project.hasProperty("build_id")) {
+        println "This is a project property: ${build_id.value}"
+        buildId = "${build_id.value}"
+    } else {
+        println "NO Build ID"
+    }
+}
+
+task printBuildId {
+    println "XX Build Id: ${buildId}"
+}
+
+printBuildId.dependsOn setBuildId
+
 task checkEnv {
     doLast {
-        println "Here is the build id from Jenkins: ${buildId}"
         for (v in System.getProperties()) {
             println "value: ${v}"
         }
+    }
+}
+
+task printProps {
+    doLast {
+        println commandLineProjectProp
+        println gradlePropertiesProp
+        println systemProjectProp
+        println envProjectProp
+        println System.properties['system']
     }
 }
